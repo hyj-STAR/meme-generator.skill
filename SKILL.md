@@ -54,6 +54,7 @@ python3 -m pip install -r requirements.txt
 
 ```bash
 python3 scripts/meme_text.py <image_path> \
+  --preset xiaohongshu-yellow \
   -t "TOP TEXT" \
   -b "BOTTOM TEXT" \
   -o output.png
@@ -65,6 +66,7 @@ Options:
 - `-o / --output` — Output path (default: `<input>_meme.png`)
 - `-f / --font` — Custom .ttf font (auto-detects Impact/LiberationSans)
 - `--font-size` — Fraction of image height (default 0.09)
+- `--preset` — Layout/color preset: `classic-white`, `xiaohongshu-yellow`, `rage-red`, `subtitle-black`
 
 **Important**: Always uppercase the text for classic memes. Split long text across lines naturally — the script auto-wraps.
 
@@ -171,6 +173,10 @@ For memes with multiple panels (Gru's Plan, Expanding Brain):
 - `scripts/meme_text.py` — Text overlay script
   - **Use this when**: Any text needs to be added to an image
   - Run directly, don't read into context unless debugging
+
+- `scripts/meme_brain.py` — Chinese meme caption planner
+  - **Use this before rendering** when the user wants “网感”, “好笑一点”, “中文梗图”, “小红书感”
+  - Example: `python3 scripts/meme_brain.py "开源 AI 工具没人用"`
 
 ## Tips
 

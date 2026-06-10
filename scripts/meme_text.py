@@ -36,6 +36,65 @@ FONT_CANDIDATES = [
     "/usr/share/fonts/truetype/msttcorefonts/Impact.ttf",  # Linux msttcorefonts
 ]
 
+PRESETS = {
+    "classic-white": {
+        "fill": "white",
+        "stroke_fill": "black",
+        "font_size_ratio": 0.09,
+        "stroke_width_ratio": 0.005,
+        "top_y": None,
+        "bottom_y": None,
+        "uppercase": False,
+    },
+    "xiaohongshu-yellow": {
+        "fill": "#FFD426",
+        "stroke_fill": "#050505",
+        "font_size_ratio": 0.074,
+        "stroke_width_ratio": 0.008,
+        "top_y": 0.055,
+        "bottom_y": 0.83,
+        "uppercase": False,
+    },
+    "rage-red": {
+        "fill": "#FF3B30",
+        "stroke_fill": "white",
+        "font_size_ratio": 0.074,
+        "stroke_width_ratio": 0.006,
+        "top_y": 0.055,
+        "bottom_y": 0.83,
+        "uppercase": False,
+    },
+    "subtitle-black": {
+        "fill": "black",
+        "stroke_fill": "white",
+        "font_size_ratio": 0.064,
+        "stroke_width_ratio": 0.006,
+        "top_y": 0.07,
+        "bottom_y": 0.82,
+        "uppercase": False,
+    },
+}
+
+
+def apply_preset(args):
+    preset = PRESETS.get(args.preset)
+    if preset is None:
+        return
+    for key, value in preset.items():
+        if key == "uppercase":
+            continue
+        if key == "font_size_ratio":
+            cli_name = "font_size"
+        elif key == "stroke_width_ratio":
+            cli_name = "stroke"
+        else:
+            cli_name = key
+        if getattr(args, cli_name, None) is None:
+            setattr(args, cli_name, value)
+    if not args.uppercase_set:
+        args.no_uppercase = not preset["uppercase"]
+
+
 def find_font(custom_path=None):
     if custom_path and os.path.exists(custom_path):
         return custom_path
@@ -200,12 +259,14 @@ def main():
     parser.add_argument("-b", "--bottom", default="", help="Bottom text")
     parser.add_argument("-o", "--output", default=None, help="Output path")
     parser.add_argument("-f", "--font", default=None, help="Custom .ttf font path")
-    parser.add_argument("--font-size", type=float, default=0.09,
+    parser.add_argument("--preset", choices=sorted(PRESETS),
+                        help="Layout/color preset for common meme styles")
+    parser.add_argument("--font-size", type=float, default=None,
                         help="Font size as fraction of image height (default 0.09)")
-    parser.add_argument("--stroke", type=float, default=0.004,
+    parser.add_argument("--stroke", type=float, default=None,
                         help="Stroke width as fraction of image height (default 0.004)")
-    parser.add_argument("--fill", default="white", help="Text fill color (default: white)")
-    parser.add_argument("--stroke-fill", default="black",
+    parser.add_argument("--fill", default=None, help="Text fill color (default: white)")
+    parser.add_argument("--stroke-fill", default=None,
                         help="Text outline color (default: black)")
     parser.add_argument("--top-y", type=float, default=None,
                         help="Top text y-position as fraction of image height")
@@ -213,8 +274,22 @@ def main():
                         help="Bottom text y-position as fraction of image height")
     parser.add_argument("--no-uppercase", action="store_true",
                         help="Keep text casing. Recommended for Chinese memes.")
+    parser.add_argument("--uppercase", dest="no_uppercase", action="store_false",
+                        help="Force uppercase text for classic English memes.")
+    parser.set_defaults(uppercase_set=False)
 
     args = parser.parse_args()
+    args.uppercase_set = "--no-uppercase" in sys.argv or "--uppercase" in sys.argv
+    apply_preset(args)
+
+    if args.font_size is None:
+        args.font_size = 0.09
+    if args.stroke is None:
+        args.stroke = 0.004
+    if args.fill is None:
+        args.fill = "white"
+    if args.stroke_fill is None:
+        args.stroke_fill = "black"
 
     if not args.top and not args.bottom:
         print("⚠️  No text provided. Use --top and/or --bottom.", file=sys.stderr)
