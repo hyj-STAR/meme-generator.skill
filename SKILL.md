@@ -164,6 +164,10 @@ For memes with multiple panels (Gru's Plan, Expanding Brain):
   - **Load this when**: User names a specific meme template, or you need to suggest templates
   - **Grep for**: template name, keyword, or Chinese name
 
+- `references/chinese-meme-playbook.md` — Chinese internet meme style, captions, layout presets, and hot-topic workflow
+  - **Load this when**: User wants 小红书/中文互联网/打工人/表情包 style
+  - **Use for**: Chinese caption ideas, color choices, text placement, trend integration
+
 - `scripts/meme_text.py` — Text overlay script
   - **Use this when**: Any text needs to be added to an image
   - Run directly, don't read into context unless debugging

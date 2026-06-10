@@ -54,6 +54,22 @@ def find_font(custom_path=None):
 
 def wrap_text(draw, text: str, font, max_width: int) -> list[str]:
     """Break text into lines that fit within max_width."""
+    if " " not in text.strip():
+        lines = []
+        current = ""
+        for char in text:
+            test = f"{current}{char}"
+            bbox = draw.textbbox((0, 0), test, font=font)
+            if bbox[2] - bbox[0] <= max_width:
+                current = test
+            else:
+                if current:
+                    lines.append(current)
+                current = char
+        if current:
+            lines.append(current)
+        return lines if lines else [text]
+
     words = text.split()
     lines = []
     current = ""
@@ -87,7 +103,8 @@ def draw_outlined_text(draw, position, text, font, fill="white",
 
 def add_meme_text(image_path, top_text="", bottom_text="",
                   output_path=None, font_path=None, font_size_ratio=0.09,
-                  stroke_width_ratio=0.004):
+                  stroke_width_ratio=0.004, fill="white", stroke_fill="black",
+                  top_y=None, bottom_y=None, uppercase=True):
     """
     Add classic meme text to an image.
 
@@ -99,6 +116,11 @@ def add_meme_text(image_path, top_text="", bottom_text="",
         font_path: Custom .ttf path
         font_size_ratio: Font size as fraction of image height (default 9%)
         stroke_width_ratio: Stroke width as fraction of image height
+        fill: Text fill color
+        stroke_fill: Text outline color
+        top_y: Optional top text y-position as fraction of image height
+        bottom_y: Optional bottom text y-position as fraction of image height
+        uppercase: Uppercase text for classic English memes
 
     Returns:
         Path to output image
@@ -125,32 +147,36 @@ def add_meme_text(image_path, top_text="", bottom_text="",
 
     # Draw top text
     if top_text:
-        top_text = top_text.upper()
+        if uppercase:
+            top_text = top_text.upper()
         lines = wrap_text(draw, top_text, font, max_text_width)
-        y_offset = margin
+        y_offset = int(h * top_y) if top_y is not None else margin
         for line in lines:
             bbox = draw.textbbox((0, 0), line, font=font)
             tw = bbox[2] - bbox[0]
             x = (w - tw) // 2
             draw_outlined_text(draw, (x, y_offset), line, font,
+                               fill=fill, stroke=stroke_fill,
                                stroke_width=stroke_width)
             y_offset += bbox[3] - bbox[1] + 2
 
     # Draw bottom text
     if bottom_text:
-        bottom_text = bottom_text.upper()
+        if uppercase:
+            bottom_text = bottom_text.upper()
         lines = wrap_text(draw, bottom_text, font, max_text_width)
         # Measure total height of bottom text block
         total_h = 0
         for line in lines:
             bbox = draw.textbbox((0, 0), line, font=font)
             total_h += bbox[3] - bbox[1] + 2
-        y_offset = h - margin - total_h
+        y_offset = int(h * bottom_y) if bottom_y is not None else h - margin - total_h
         for line in lines:
             bbox = draw.textbbox((0, 0), line, font=font)
             tw = bbox[2] - bbox[0]
             x = (w - tw) // 2
             draw_outlined_text(draw, (x, y_offset), line, font,
+                               fill=fill, stroke=stroke_fill,
                                stroke_width=stroke_width)
             y_offset += bbox[3] - bbox[1] + 2
 
@@ -169,14 +195,23 @@ def add_meme_text(image_path, top_text="", bottom_text="",
 def main():
     parser = argparse.ArgumentParser(description="Add classic meme text to an image")
     parser.add_argument("image", help="Path to source image")
-    parser.add_argument("-t", "--top", default="", help="Top text (auto-uppercased)")
-    parser.add_argument("-b", "--bottom", default="", help="Bottom text (auto-uppercased)")
+    parser.add_argument("-t", "--top", default="", help="Top text")
+    parser.add_argument("-b", "--bottom", default="", help="Bottom text")
     parser.add_argument("-o", "--output", default=None, help="Output path")
     parser.add_argument("-f", "--font", default=None, help="Custom .ttf font path")
     parser.add_argument("--font-size", type=float, default=0.09,
                         help="Font size as fraction of image height (default 0.09)")
     parser.add_argument("--stroke", type=float, default=0.004,
                         help="Stroke width as fraction of image height (default 0.004)")
+    parser.add_argument("--fill", default="white", help="Text fill color (default: white)")
+    parser.add_argument("--stroke-fill", default="black",
+                        help="Text outline color (default: black)")
+    parser.add_argument("--top-y", type=float, default=None,
+                        help="Top text y-position as fraction of image height")
+    parser.add_argument("--bottom-y", type=float, default=None,
+                        help="Bottom text y-position as fraction of image height")
+    parser.add_argument("--no-uppercase", action="store_true",
+                        help="Keep text casing. Recommended for Chinese memes.")
 
     args = parser.parse_args()
 
@@ -192,6 +227,11 @@ def main():
         font_path=args.font,
         font_size_ratio=args.font_size,
         stroke_width_ratio=args.stroke,
+        fill=args.fill,
+        stroke_fill=args.stroke_fill,
+        top_y=args.top_y,
+        bottom_y=args.bottom_y,
+        uppercase=not args.no_uppercase,
     )
 
 
