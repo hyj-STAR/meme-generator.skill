@@ -31,6 +31,27 @@ ANGLES = {
         ("别再乱做 AI 工具了", "先学会让人想点开"),
         ("我发现一个离谱真相", "工具不会自己长流量"),
     ],
+    "进击式压迫": [
+        ("我：这个 bug 应该不大", "bug："),
+        ("产品经理：就改个小需求", "代码库："),
+        ("上线前：一切正常", "上线后："),
+    ],
+    "地下室真相": [
+        ("我们终于打开数据后台", "发现根本没人点"),
+        ("以为问题是功能不够", "结果是没人看懂"),
+    ],
+    "地鸣级需求": [
+        ("我刚发完第一版", "issue 开始地鸣"),
+        ("以为只有一个需求", "结果需求自己带了全家"),
+    ],
+    "莱纳坐下": [
+        ("表面：欢迎提 issue", "内心：别再提了"),
+        ("我：这个需求可以做", "也是我：先让我坐一会"),
+    ],
+    "兵长洁癖": [
+        ("用户要功能", "我先格式化全项目"),
+        ("说好只修一个 bug", "结果清理了三小时"),
+    ],
 }
 
 PRESET_HINTS = {
@@ -39,6 +60,11 @@ PRESET_HINTS = {
     "工具没人用": "classic-white",
     "AI 打工人": "rage-red",
     "小红书标题党": "xiaohongshu-yellow",
+    "进击式压迫": "classic-white",
+    "地下室真相": "subtitle-black",
+    "地鸣级需求": "rage-red",
+    "莱纳坐下": "xiaohongshu-yellow",
+    "兵长洁癖": "classic-white",
 }
 
 
@@ -48,6 +74,9 @@ def infer_slots(scene: str) -> dict[str, str]:
     if "star" in scene.lower() or "开源" in scene or "github" in scene.lower():
         calm = "欢迎大家随便看看"
         threat = "顺手点个 STAR 不过分吧"
+    elif "进击" in scene or "巨人" in scene or "地鸣" in scene:
+        calm = "这个问题应该不大"
+        threat = "墙已经没了"
     elif "流量" in scene or "推广" in scene or "小红书" in scene:
         calm = "我只是随便发发"
         threat = "怎么还没人爆"

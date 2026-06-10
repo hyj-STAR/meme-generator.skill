@@ -28,6 +28,10 @@ It is built for one thing: make meme outputs that feel native to the platform, n
 
 ![yellow text demos](assets/gallery-yellow.jpg)
 
+### Attack-on-Titan-Like Pressure Meme
+
+![aot pressure demos](assets/gallery-aot.jpg)
+
 ### What it does
 
 - Add classic meme captions to images
@@ -142,6 +146,7 @@ Use these as starting points:
 - `references/templates.md`: classic meme templates and common IDs
 - `references/chinese-meme-playbook.md`: Chinese meme caption and layout rules
 - `references/reference-styles.md`: visual recipes extracted from real meme screenshots
+- `references/meme-reference-library.md`: meme-universe mechanics such as 进击的巨人-style despair, reversal, wall break, basement reveal, and rumbling
 
 ## X/Twitter Notes
 

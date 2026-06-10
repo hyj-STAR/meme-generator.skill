@@ -192,6 +192,10 @@ For memes with multiple panels (Gru's Plan, Expanding Brain):
 - `references/reference-styles.md` — Visual recipes extracted from reference memes
   - **Use this when**: The problem is not the caption but the meme format itself
 
+- `references/meme-reference-library.md` — Meme universe mechanics and safe remix rules
+  - **Use this when**: User references a specific IP/meme world such as 进击的巨人 and wants “有网感”
+  - **Use for**: mapping lore/scenes into reusable joke structures without copying protected frames or characters
+
 ## Tips
 
 - **Long text**: The script auto-wraps, but keep meme text punchy — 4-6 words per line ideal
