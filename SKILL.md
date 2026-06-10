@@ -184,6 +184,14 @@ For memes with multiple panels (Gru's Plan, Expanding Brain):
   - Reddit: `python3 scripts/trend_scraper.py --source reddit --subreddit memes --angles`
   - X/Twitter: optional adapter only. Requires an installed scraper such as Scweet/Twikit plus account auth in `X_AUTH_TOKEN`; do not brute-force anti-bot systems.
 
+- `scripts/meme_layout.py` — Platform-native meme compositor
+  - **Use this when**: User provides reference screenshots or asks for “更有网感”, “像 X 截图”, “像表情包商店”
+  - Sticker style: `python3 scripts/meme_layout.py input.png --style sticker --caption "老实人被暗箭所伤" -o out.jpg`
+  - X screenshot style: `python3 scripts/meme_layout.py input.png --style x-screenshot --title "普通宣传：写卖点\\n技术圈宣传：做成烂梗" --punchline "咔咔就是干！！！" -o out.jpg`
+
+- `references/reference-styles.md` — Visual recipes extracted from reference memes
+  - **Use this when**: The problem is not the caption but the meme format itself
+
 ## Tips
 
 - **Long text**: The script auto-wraps, but keep meme text punchy — 4-6 words per line ideal
