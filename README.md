@@ -10,6 +10,24 @@ It is built for one thing: make meme outputs that feel native to the platform, n
 
 ![demo grid](assets/demo-grid.jpg)
 
+## More Demos
+
+### Xiaohongshu Cover Style
+
+![xiaohongshu cover demos](assets/gallery-xhs.jpg)
+
+### X/Twitter Screenshot Tech Meme
+
+![x screenshot demos](assets/gallery-xshot.jpg)
+
+### Sticker Store Roast
+
+![sticker roast demos](assets/gallery-sticker.jpg)
+
+### Chinese Yellow Text Meme
+
+![yellow text demos](assets/gallery-yellow.jpg)
+
 ### What it does
 
 - Add classic meme captions to images
