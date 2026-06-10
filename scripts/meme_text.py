@@ -7,13 +7,30 @@ Adds top/bottom text with white fill + black stroke to any image.
 import argparse
 import os
 import sys
-from PIL import Image, ImageDraw, ImageFont
+
+try:
+    from PIL import Image, ImageDraw, ImageFont
+except ModuleNotFoundError as exc:
+    if exc.name != "PIL":
+        raise
+    print(
+        "Missing dependency: Pillow. Install it with:\n"
+        "  python3 -m pip install -r requirements.txt\n"
+        "or:\n"
+        "  python3 -m pip install Pillow",
+        file=sys.stderr,
+    )
+    sys.exit(1)
 
 # ── Font resolution ──────────────────────────────────────────────
 FONT_CANDIDATES = [
     "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf",
     "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
     "/System/Library/Fonts/Impact.ttf",          # macOS
+    "/System/Library/Fonts/PingFang.ttc",        # macOS CJK
+    "/System/Library/Fonts/STHeiti Light.ttc",   # macOS CJK fallback
+    "/System/Library/Fonts/Supplemental/Arial Unicode.ttf",
+    "/System/Library/Fonts/Supplemental/Arial Bold.ttf",
     "C:/Windows/Fonts/impact.ttf",               # Windows
     "/usr/share/fonts/truetype/msttcorefonts/Impact.ttf",  # Linux msttcorefonts
 ]
@@ -94,7 +111,7 @@ def add_meme_text(image_path, top_text="", bottom_text="",
     stroke_width = max(int(h * stroke_width_ratio), 2)
 
     font_file = find_font(font_path)
-    if font_file is None or isinstance(font_file, ImageFont.ImageFont):
+    if font_file is None or not isinstance(font_file, (str, bytes, os.PathLike)):
         font = font_file or ImageFont.load_default()
     else:
         font = ImageFont.truetype(font_file, font_size)

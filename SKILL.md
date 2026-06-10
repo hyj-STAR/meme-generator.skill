@@ -46,6 +46,12 @@ User request
 
 Use `scripts/meme_text.py` for the classic Impact-font top/bottom text format:
 
+First-time setup:
+
+```bash
+python3 -m pip install -r requirements.txt
+```
+
 ```bash
 python3 scripts/meme_text.py <image_path> \
   -t "TOP TEXT" \
