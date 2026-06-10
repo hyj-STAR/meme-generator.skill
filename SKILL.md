@@ -178,6 +178,12 @@ For memes with multiple panels (Gru's Plan, Expanding Brain):
   - **Use this before rendering** when the user wants “网感”, “好笑一点”, “中文梗图”, “小红书感”
   - Example: `python3 scripts/meme_brain.py "开源 AI 工具没人用"`
 
+- `scripts/trend_scraper.py` — Lightweight trend collector for meme ideation
+  - **Use this when**: User asks for current trends, GitHub projects, Reddit meme signals, or X/Twitter trend input
+  - Safe default: `python3 scripts/trend_scraper.py --source github --angles`
+  - Reddit: `python3 scripts/trend_scraper.py --source reddit --subreddit memes --angles`
+  - X/Twitter: optional adapter only. Requires an installed scraper such as Scweet/Twikit plus account auth in `X_AUTH_TOKEN`; do not brute-force anti-bot systems.
+
 ## Tips
 
 - **Long text**: The script auto-wraps, but keep meme text punchy — 4-6 words per line ideal
