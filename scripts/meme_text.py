@@ -24,10 +24,11 @@ except ModuleNotFoundError as exc:
 
 # ── Font resolution ──────────────────────────────────────────────
 FONT_CANDIDATES = [
+    "/System/Library/Fonts/Hiragino Sans GB.ttc",  # macOS CJK bold meme text
+    "/System/Library/Fonts/STHeiti Medium.ttc",    # macOS CJK bold fallback
     "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf",
     "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
     "/System/Library/Fonts/Impact.ttf",          # macOS
-    "/System/Library/Fonts/PingFang.ttc",        # macOS CJK
     "/System/Library/Fonts/STHeiti Light.ttc",   # macOS CJK fallback
     "/System/Library/Fonts/Supplemental/Arial Unicode.ttf",
     "/System/Library/Fonts/Supplemental/Arial Bold.ttf",
